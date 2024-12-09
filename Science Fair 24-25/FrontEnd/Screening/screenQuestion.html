@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screening Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .question {
+            background: #ffffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .question img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+        .question h3 {
+            color: #333;
+        }
+        .question button {
+            background: #6a5acd;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .question button:hover {
+            background: #5b4eb2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Screening Test</h1>
+
+    <!-- Question 1 -->
+    <div class="question">
+        <img src="question1.jpg" alt="Question Image">
+        <h3>What is this animal?</h3>
+        <button onclick="recordAudio(1)">Record your answer</button>
+        <audio id="audio1" controls></audio>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question">
+        <img src="question2.jpg" alt="Question Image">
+        <h3>What is the color of this object?</h3>
+        <button onclick="recordAudio(2)">Record your answer</button>
+        <audio id="audio2" controls></audio>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question">
+        <img src="question3.jpg" alt="Question Image">
+        <h3>How many legs does this creature have?</h3>
+        <button onclick="recordAudio(3)">Record your answer</button>
+        <audio id="audio3" controls></audio>
+    </div>
+
+    <!-- Add more questions here -->
+
+</div>
+
+<div class="container">
+    <div class="question">
+        <a href="screenResults.html" class="btn">Summary</a>
+    </div>
+</div>
+
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+
+    // This function starts recording the audio for each question
+    function recordAudio(questionNumber) {
+        const audioElement = document.getElementById(`audio${questionNumber}`);
+
+        // Request access to the microphone
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                alert("Recording started for Question " + questionNumber);
+
+                mediaRecorder.ondataavailable = function(event) {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = function() {
+                    let audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    let audioUrl = URL.createObjectURL(audioBlob);
+                    audioElement.src = audioUrl;  // Set the audio element source
+                    sendAudioToBackend(audioBlob, questionNumber);  // Send to backend
+                };
+
+                // Stop recording after 5 seconds for this example
+                setTimeout(function() {
+                    mediaRecorder.stop();
+                    alert("Recording stopped for Question " + questionNumber);
+                }, 5000);
+            });
+    }
+
+    // Send the recorded audio to the backend server for processing
+    function sendAudioToBackend(audioBlob, questionNumber) {
+        const formData = new FormData();
+        formData.append('audio', audioBlob, `question_${questionNumber}.wav`);
+
+        fetch('http://127.0.0.1:5000/submit_answer', {  // Ensure this matches your Flask backend URL
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Result from backend:", data);
+            // You can process the result (e.g., show if the answer is correct)
+            alert(`Transcription: ${data.transcription}\nCorrect: ${data.correct}`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+
+</body>
+</html>

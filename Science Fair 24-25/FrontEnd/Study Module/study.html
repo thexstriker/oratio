@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoneme Intervention Modules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Blue and Purple gradient */
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .current-level {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .module {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .module h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .module p {
+            font-size: 1.2em;
+        }
+
+        .module button {
+            background-color: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .module button:hover {
+            background-color: #6a11cb;
+        }
+
+        .phoneme-error {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .phoneme-error h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .phoneme-error table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .phoneme-error table, th, td {
+            border: 1px solid black;
+        }
+
+        .phoneme-error th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .phoneme-error th {
+            background-color: #6a11cb;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <a href="index.html">Home</a>
+    <a href="screening.html">Screening</a>
+    <a href="results.html">Results</a>
+    <a href="study.html">Study</a>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <h1>Phoneme Intervention Modules</h1>
+
+    <!-- Current Level Section -->
+    <div class="current-level">
+        <p><strong>Current Level:</strong> Word Level</p> <!-- This will be dynamically updated later -->
+    </div>
+
+    <!-- Intervention Modules -->
+    <div class="module">
+        <h2>Intervention Module 1: Phoneme /b/ in Word Level</h2>
+        <p>Here, you will practice the phoneme /b/ at the word level. This exercise will help you improve your articulation and fluency.</p>
+        <button onclick="window.location.href='module1-practice.html'">Start Phoneme /b/ Practice</button>
+    </div>
+
+    <div class="module">
+        <h2>Intervention Module 2: Phoneme /s/ in Sentence Level</h2>
+        <p>In this module, you will work on the phoneme /s/ in sentences to improve your articulation in longer phrases.</p>
+        <button onclick="window.location.href='module2-practice.html'">Start Phoneme /s/ Practice</button>
+    </div>
+
+    <div class="module">
+        <h2>Intervention Module 3: Phoneme /k/ in Conversation Level</h2>
+        <p>This module will focus on practicing the phoneme /k/ in conversational speech, which is a more advanced level of articulation.</p>
+        <button onclick="window.location.href='module3-practice.html'">Start Phoneme /k/ Practice</button>
+    </div>
+
+    <!-- Phonemic Error Section -->
+    <div class="phoneme-error">
+        <h3>Common Phonological Errors</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Phonological Process</th>
+                <th>Likelihood (%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Consonant Cluster Reduction</td>
+                <td>70%</td>
+            </tr>
+            <tr>
+                <td>Stopping</td>
+                <td>65%</td>
+            </tr>
+            <tr>
+                <td>Fronting</td>
+                <td>60%</td>
+            </tr>
+            <tr>
+                <td>Final Consonant Deletion</td>
+                <td>55%</td>
+            </tr>
+            <tr>
+                <td>Gliding of Liquids</td>
+                <td>50%</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

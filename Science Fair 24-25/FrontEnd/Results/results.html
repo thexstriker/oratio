@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Purple-Blue Gradient */
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 40px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #fff; /* Keep headers white */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        canvas {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background-color: white; /* Set table background to white */
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50; /* Keep header row green */
+            color: white;
+        }
+
+        td {
+            color: black; /* Set text color inside the table to black */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-container {
+            margin-top: 40px;
+        }
+
+        .button {
+            background-color: #2575fc;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #6a11cb; /* Hover effect with purple */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Screening Test Results (based on last screen)</h1>
+
+    <!-- Circle graph container -->
+    <div class="chart-container">
+        <h2>Phonemic Accuracy</h2>
+        <canvas id="accuracyChart"></canvas>
+    </div>
+
+    <!-- Table for Phoneme Errors -->
+    <div class="table-container">
+        <h2>Phoneme Errors</h2>
+        <table id="phonemeErrors">
+            <thead>
+            <tr>
+                <th>Phoneme</th>
+                <th>Error Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Table for Phonological Processes -->
+    <div class="table-container">
+        <h2>Common Phonological Processes</h2>
+        <table id="phonologicalProcesses">
+            <thead>
+            <tr>
+                <th>Phonological Process</th>
+                <th>Likelihood (%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button class="button" onclick="window.location.href='../oratioHome.html'">Go Back to Home</button>
+    </div>
+</div>
+
+<script>
+    // Sample data for the chart (you can replace with actual data)
+    const phonemicAccuracy = {
+        correct: 85, // Percentage of correct phonemes
+        incorrect: 15, // Percentage of incorrect phonemes
+    };
+
+    // Data for phoneme errors (replace with actual data)
+    const phonemeErrors = [
+        { phoneme: "æ", count: 12 },
+        { phoneme: "θ", count: 7 },
+        { phoneme: "ʌ", count: 4 },
+        { phoneme: "dʒ", count: 2 },
+        // Add more phoneme error data as needed
+    ];
+
+    // Data for common phonological processes (replace with actual data)
+    const phonologicalProcesses = [
+        { process: "Stopping", likelihood: 20 },
+        { process: "Fronting", likelihood: 10 },
+        { process: "Gliding", likelihood: 15 },
+        { process: "Cluster Reduction", likelihood: 30 },
+        { process: "Final Consonant Deletion", likelihood: 25 },
+        // Add more processes as needed
+    ];
+
+    // Generate Circle Graph using Chart.js
+    const ctx = document.getElementById('accuracyChart').getContext('2d');
+    const accuracyChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Correct Phonemes', 'Incorrect Phonemes'],
+            datasets: [{
+                data: [phonemicAccuracy.correct, phonemicAccuracy.incorrect],
+                backgroundColor: ['#4CAF50', '#FF6347'],
+                borderColor: ['#fff', '#fff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+
+    // Populate phoneme errors table
+    const phonemeErrorsTable = document.getElementById('phonemeErrors').getElementsByTagName('tbody')[0];
+    phonemeErrors.sort((a, b) => b.count - a.count); // Sort by error count in descending order
+    phonemeErrors.forEach(error => {
+        const row = phonemeErrorsTable.insertRow();
+        row.insertCell(0).textContent = error.phoneme;
+        row.insertCell(1).textContent = error.count;
+    });
+
+    // Populate phonological processes table
+    const phonologicalProcessesTable = document.getElementById('phonologicalProcesses').getElementsByTagName('tbody')[0];
+    phonologicalProcesses.forEach(process => {
+        const row = phonologicalProcessesTable.insertRow();
+        row.insertCell(0).textContent = process.process;
+        row.insertCell(1).textContent = process.likelihood + '%';
+    });
+</script>
+
+</body>
+</html>
